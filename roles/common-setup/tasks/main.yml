@@ -1,0 +1,54 @@
+---
+# tasks file for common-setup
+- name: Initial user
+  ansible.builtin.user: 
+    name: '{{ ansible_user }}'
+    groups: sudo
+    shell: /bin/sh
+    state: present
+  
+- name: Ensure .ssh directory exists
+  ansible.builtin.file:
+    path: /home/{{ ansible_user }}/.ssh
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
+    mode: '0700'
+
+- name: Copy public key
+  ansible.builtin.copy:
+    src: cluster-key.pub
+    dest: /home/{{ ansible_user }}/.ssh/authorized_keys
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
+    mode: '0600'
+
+- name: Ensure system up-to-date
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Install common services
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - vim
+    - curl
+    - wget
+    - net-tools
+    - htop
+    - unzip
+    - git
+    - gnupg
+    - ca-certificates
+    - lsb-release
+
+- name: Set Timezone
+  ansible.builtin.timezone:
+    name: Asia/Jakarta
+
+- name: Harden SSH Config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '#?PermitRootLogin'
+    line: 'PermitRootLogin no'

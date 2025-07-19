@@ -1,0 +1,3 @@
+---
+# vars file for common-setup
+ansible_user: danuptra

@@ -1,0 +1,56 @@
+# Ansible backup files
+*.retry
+*.log
+*.tar.gz
+
+# SSH keys or sensitive files
+roles/**/files/*.pem
+roles/**/files/*.key
+roles/**/files/*.crt
+roles/**/files/*_rsa
+roles/**/files/*_dsa
+roles/**/files/*_ecdsa
+roles/**/files/*_ed25519
+roles/**/files/authorized_keys
+
+# Encrypted secrets (if any left unencrypted)
+secrets.yml
+vault.yml
+
+# Python files (if you use virtualenv, molecule, etc)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+.Python
+pip-log.txt
+
+# Molecule testing (if used in the future)
+.molecule/
+.molecule/*
+
+# Editor / OS junk
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Inventory dynamic cache (if used)
+*.db
+*.dat
+*.cache
+.cache/
+
+# Common files you don't want
+*.old
+*.orig
+
+# Ansible Galaxy roles (if pulled externally)
+roles/*/.galaxy_install_info
+roles/*/README.md (optional)
