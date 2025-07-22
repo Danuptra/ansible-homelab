@@ -1,3 +1,6 @@
+# Token k3s
+node-token
+
 # Ansible backup files
 *.retry
 *.log

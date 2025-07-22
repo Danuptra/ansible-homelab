@@ -1,0 +1,22 @@
+---
+- name: Download K3s installer
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s.sh
+    mode: '0755'
+
+- name: Install K3s agent node
+  ansible.builtin.shell: >
+    /tmp/k3s.sh agent
+    --server https://{{ master_ip }}:6443
+    --token {{ node_token }}
+  args:
+    creates: /usr/local/bin/k3s
+
+- name: Debug master_ip
+  ansible.builtin.debug:
+    var: master_ip
+
+- name: Debug node_token
+  ansible.builtin.debug:
+    var: node_token

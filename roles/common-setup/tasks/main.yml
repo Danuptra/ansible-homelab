@@ -14,14 +14,6 @@
     group: '{{ ansible_user }}'
     mode: '0700'
 
-- name: Copy public key
-  ansible.builtin.copy:
-    src: cluster-key.pub
-    dest: /home/{{ ansible_user }}/.ssh/authorized_keys
-    owner: '{{ ansible_user }}'
-    group: '{{ ansible_user }}'
-    mode: '0600'
-
 - name: Ensure system up-to-date
   ansible.builtin.apt:
     update_cache: yes
@@ -44,7 +36,7 @@
     - lsb-release
 
 - name: Set Timezone
-  ansible.builtin.timezone:
+  community.general.timezone:
     name: Asia/Jakarta
 
 - name: Harden SSH Config
@@ -52,3 +44,8 @@
     path: /etc/ssh/sshd_config
     regexp: '#?PermitRootLogin'
     line: 'PermitRootLogin no'
+
+- name: Set hostname from inventory_hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+

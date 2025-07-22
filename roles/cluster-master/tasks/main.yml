@@ -1,0 +1,17 @@
+---
+- name: Download K3s installer
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /tmp/k3s.sh
+    mode: '0755'
+
+- name: Install K3s master node
+  ansible.builtin.shell: /tmp/k3s.sh server --disable traefik
+  args:
+    creates: /usr/local/bin/k3s
+
+- name: Copy node token to control machine
+  ansible.builtin.fetch:
+    src: /var/lib/rancher/k3s/server/node-token
+    dest: ./node-token
+    flat: true

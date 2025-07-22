@@ -3,6 +3,19 @@
   hosts: all
   become: true
   become_method: sudo
-
   roles:
     - common-setup
+
+- name: Setup master cluster
+  hosts: master
+  become: true
+  become_method: sudo
+  roles:
+    - cluster-master
+
+- name: Setup worker cluster
+  hosts: worker
+  become: true
+  become_method: sudo
+  roles:
+    - cluster-worker
